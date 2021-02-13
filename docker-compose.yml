@@ -1,11 +1,32 @@
 version: '3.9'
 services:
-  todo_backend:
+  todo_backend_1:
     build:
-      context: .
+      context: ./tododrf_1
       dockerfile: Dockerfile
     ports:
-    - '8000:8000'
-    volumes:
-    - .:/app
+      - '8000:8000'
+
+  todo_backend_2:
+    build:
+      context: ./tododrf_2
+      dockerfile: Dockerfile
+    ports:
+      - '8001:8000'
+
+  todo_backend_3:
+    build:
+      context: ./tododrf_3
+      dockerfile: Dockerfile
+    ports:
+      - '8002:8000'
+
+  nginx:
+    build: ./nginx
+    ports:
+    - "8080:8000"
+    depends_on:
+      - todo_backend_1
+      - todo_backend_2
+      - todo_backend_3
 
